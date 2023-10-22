@@ -1,0 +1,5 @@
+// Camera Movement Package
+Cinemachine - 22.10.2023
+
+// A Custom Editor package that lets you hide variables based on Enum type (THIS IS A GOD SEND :praise:)
+ShowWhen - 22.10.2023 - https://gist.github.com/deebrol/02f61b7611fd4eca923776077b92dfc2
