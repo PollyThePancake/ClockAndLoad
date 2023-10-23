@@ -16,6 +16,7 @@ MonoBehaviour:
   posOffset: {x: 0.4, y: -3.5}
   partType: 3
   shotCount: 0
+  ammoCount: 0
   shotSpeed: 0
   reloadTime: 0
   firerate: 0
@@ -23,8 +24,9 @@ MonoBehaviour:
   shotAccuracy: 0
   shotSpread: 0
   barrelPrefab: {fileID: 0}
+  bulletPrefab: {fileID: 0}
+  casingPrefab: {fileID: 0}
   spreadMod: 0.1
   accuracyMod: 0.4
   firerateMod: 0
   damageMod: 0
-  ammoCount: 0

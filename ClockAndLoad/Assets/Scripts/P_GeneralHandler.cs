@@ -7,6 +7,8 @@ public class P_GeneralHandler : MonoBehaviour
 {
     public GameObject GameController;
     public List<W_PartManager> partList;
+    [HideInInspector]
+    public List<W_PartManager> barrelParts, stockParts, muzzleParts, triggerParts;
     public Sprite handSprite;
 
     // Movement
@@ -27,10 +29,12 @@ public class P_GeneralHandler : MonoBehaviour
     private void Start()
     {
         shootingController = transform.GetComponent<P_ShootingController>();
-        partList.Add(GameController.GetComponent<G_GameController>().partList[0]);
-        partList.Add(GameController.GetComponent<G_GameController>().partList[1]);
-        partList.Add(GameController.GetComponent<G_GameController>().partList[2]);
-        partList.Add(GameController.GetComponent<G_GameController>().partList[3]);
+        var gc = GameController.GetComponent<G_GameController>();
+        partList = gc.partList;
+        barrelParts = gc.barrelParts;
+        stockParts = gc.stockParts;
+        muzzleParts = gc.muzzleParts;
+        triggerParts = gc.triggerParts;
     }
     private void Update()
     {
@@ -38,11 +42,11 @@ public class P_GeneralHandler : MonoBehaviour
         //debug
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            shootingController.InitGun(partList,gripPoint,handSprite);
+            shootingController.InitGun(barrelParts,stockParts,triggerParts,muzzleParts,gripPoint,handSprite);
         }
 
         //  Fire
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButton(0))
         {
             shootingController.FireWeapon(gripPoint.transform);
         }

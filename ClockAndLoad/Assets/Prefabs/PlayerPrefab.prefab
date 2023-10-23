@@ -77,10 +77,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   partList:
-  - {fileID: 11400000, guid: 724b7a4ecd0340e4daf2c5300b980755, type: 2}
+  - {fileID: 11400000, guid: 8e208bdab1927b943b2ff1b54356f614, type: 2}
   - {fileID: 11400000, guid: 78eb5925f2528f140a97380374f07023, type: 2}
   - {fileID: 11400000, guid: 11383f2b2bc60974cb96167a3640166f, type: 2}
   - {fileID: 11400000, guid: 1f943316c7d254e48a03f1a91c1ac146, type: 2}
+  - {fileID: 11400000, guid: 724b7a4ecd0340e4daf2c5300b980755, type: 2}
   gunConstructor: {fileID: 8186375912346474840, guid: a379299ff5d1cd449bb50edc0b93e4da, type: 3}
 --- !u!1 &3792071630989764147
 GameObject:
@@ -260,7 +261,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99f88715561ed7949a4dd87ad6e10c21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  bulletPrefab: {fileID: 2910381631124177882, guid: e87558200a7dbea41be4e905e80dad11, type: 3}
   ammoText: {fileID: 3912137756395858820}
 --- !u!114 &6809213830621591345
 MonoBehaviour:
@@ -314,7 +314,7 @@ MonoBehaviour:
     m_DissipationMode: 2
     m_DissipationDistance: 100
     m_PropagationSpeed: 343
-  m_DefaultVelocity: {x: -0.2, y: 0.2, z: 0}
+  m_DefaultVelocity: {x: -0.3, y: 0.3, z: 0}
 --- !u!1 &7743653448300883755
 GameObject:
   m_ObjectHideFlags: 0

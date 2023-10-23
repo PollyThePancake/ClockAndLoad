@@ -8,7 +8,7 @@ public class W_BulletController : MonoBehaviour
     public Rigidbody2D rb;
     public void Move()
     {
-        Destroy(this, 60f);
+        Destroy(this, 20f);
         rb.AddForce(transform.right * shotSpeed, ForceMode2D.Impulse);
     }
     

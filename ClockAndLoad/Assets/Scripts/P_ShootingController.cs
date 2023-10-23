@@ -8,22 +8,21 @@ using UnityEngine;
 public class P_ShootingController : MonoBehaviour
 {
 
-    private int shotCount;
+    private int shotCount, ammoCount,currentAmmoCount;
     private float shotSpeed, reloadTime, firerate, damage, shotAccuracy, shotSpread, spreadMod, accuracyMod, firerateMod, damageMod;
 
-    public GameObject bulletPrefab;
-    public GameObject casingPrefab;
+    private GameObject bulletPrefab;
+    private GameObject casingPrefab;
     public TextMeshPro ammoText;
 
     private CinemachineImpulseSource impulseSource;
-    private int ammoCount;
     private bool canFire = true;
 
     private void Awake()
     {
         impulseSource= GetComponent<CinemachineImpulseSource>();
     }
-    public void InitGun(List<W_PartManager> partList, GameObject gripPoint, Sprite handSprite)
+    public void InitGun(List<W_PartManager> barrelParts, List<W_PartManager> stockParts, List<W_PartManager> triggerParts, List<W_PartManager> muzzleParts, GameObject gripPoint, Sprite handSprite)
     {
         for (int i = 0; gripPoint.transform.childCount > i; i++)
         {
@@ -31,13 +30,20 @@ public class P_ShootingController : MonoBehaviour
         }
         var gun = Instantiate(new GameObject(), gripPoint.transform, false);
         gun.AddComponent<W_Constructor>();
-        gun.GetComponent<W_Constructor>().barrelStats = partList[0];
-        gun.GetComponent<W_Constructor>().stockStats = partList[1];
-        gun.GetComponent<W_Constructor>().triggerStats = partList[2];
-        gun.GetComponent<W_Constructor>().muzzleStats = partList[3];
+        gun.GetComponent<W_Constructor>().barrelStats = barrelParts[0];
+        gun.GetComponent<W_Constructor>().stockStats = stockParts[0];
+        gun.GetComponent<W_Constructor>().triggerStats = triggerParts[0];
+        gun.GetComponent<W_Constructor>().muzzleStats = muzzleParts[0];
         gun.GetComponent<W_Constructor>().handSprite = handSprite;
         gun.GetComponent<W_Constructor>().ConstructGun();
-        GenerateStats(partList);
+        var parts = new List<W_PartManager>
+        {
+            barrelParts[0],
+            stockParts[0],
+            triggerParts[0],
+            muzzleParts[0]
+        };
+        GenerateStats(parts);
     }
     public void GenerateStats(List<W_PartManager> parts)
     {
@@ -45,7 +51,7 @@ public class P_ShootingController : MonoBehaviour
         ammoCount = 0;
         foreach (var part in parts) 
         {
-            shotCount += part.shotCount;
+            
             shotSpeed += part.shotSpeed;
             reloadTime += part.reloadTime;
             firerate += part.firerate;
@@ -56,18 +62,26 @@ public class P_ShootingController : MonoBehaviour
             accuracyMod += part.accuracyMod;
             firerateMod += part.firerateMod;
             damageMod += part.damageMod;
+            ammoCount += part.ammoCount;
+            if (part.partType == W_PartManager.PartType.Barrel)
+            {
+                bulletPrefab = part.bulletPrefab;
+                casingPrefab = part.casingPrefab;
+                shotCount += part.shotCount;
+            }
+
         }
         shotAccuracy = (accuracyMod * shotAccuracy) + shotAccuracy;
         shotSpread = (shotSpread * spreadMod) - shotSpread;
         firerate = (firerateMod * firerate) + firerate;
         damage = (damageMod * damage) + damage;
-        ammoCount = shotCount;
+        currentAmmoCount = ammoCount;
         UpdateCounter();
     }
 
     public void FireWeapon(Transform direction)
     {
-        if (shotCount > 0 && ammoCount > 0 && canFire) 
+        if (shotCount > 0 && currentAmmoCount > 0 && canFire) 
         {
             for (int i = 0;i < shotCount; i++) 
             {
@@ -82,7 +96,7 @@ public class P_ShootingController : MonoBehaviour
             c.GetComponent<Rigidbody2D>().AddForce(new Vector2(Random.Range(-500, 500), Random.Range(-500, 500)));
             c.transform.Rotate(0f,0f,Random.Range(0, 360));
             impulseSource.GenerateImpulseWithForce(0.1f);
-            ammoCount--;
+            currentAmmoCount--;
             UpdateCounter();
             canFire = false;
             StartCoroutine(FirerateLimiter());
@@ -92,11 +106,11 @@ public class P_ShootingController : MonoBehaviour
     }
     public void UpdateCounter()
     {
-        ammoText.text = $"{ammoCount} / {shotCount}";
+        ammoText.text = $"{currentAmmoCount} / {ammoCount}";
     }
     public void ReloadWeapon()
     {
-        ammoCount = shotCount;
+        currentAmmoCount = ammoCount;
         UpdateCounter();
     }
 
