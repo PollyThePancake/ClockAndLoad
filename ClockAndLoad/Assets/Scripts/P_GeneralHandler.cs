@@ -23,6 +23,7 @@ public class P_GeneralHandler : MonoBehaviour
     public GameObject gripPoint;
     public Camera mainCamera;
 
+    private int barrelIndex = 0, stockIndex = 0, muzzleIndex = 0, triggerIndex = 0;
 
     private P_ShootingController shootingController;
 
@@ -36,15 +37,10 @@ public class P_GeneralHandler : MonoBehaviour
         stockParts = gc.stockParts;
         muzzleParts = gc.muzzleParts;
         triggerParts = gc.triggerParts;
+        InitWeapon();
     }
     private void Update()
     {
-
-        //debug
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            shootingController.InitGun(barrelParts[0], stockParts[0], triggerParts[0], muzzleParts[0], gripPoint,handSprite);
-        }
 
         //  Fire
         if (Input.GetMouseButton(0))
@@ -78,5 +74,29 @@ public class P_GeneralHandler : MonoBehaviour
         gripPivot.transform.up = mousePos - new Vector2(transform.position.x, transform.position.y);
         if (gripPivot.transform.localEulerAngles.z > 180) { gripPivot.transform.localScale = new Vector3(1, 1, 1); }
         else { gripPivot.transform.localScale = new Vector3(-1,1,1);  }
+    }
+    private void InitWeapon()
+    {
+        shootingController.InitGun(barrelParts[barrelIndex], stockParts[stockIndex], triggerParts[triggerIndex], muzzleParts[muzzleIndex], gripPoint, handSprite);
+    }
+    public void BarrelChangePart(int index)
+    {
+        barrelIndex = index;
+        InitWeapon();
+    }
+    public void StockChangePart(int index)
+    {
+        stockIndex = index;
+        InitWeapon();
+    }
+    public void MuzzleChangePart(int index)
+    {
+        muzzleIndex = index;
+        InitWeapon();
+    }
+    public void TriggerChangePart(int index)
+    {
+        triggerIndex = index;
+        InitWeapon();
     }
 }

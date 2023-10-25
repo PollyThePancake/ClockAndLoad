@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class P_ShootingController : MonoBehaviour
 {
@@ -13,7 +14,10 @@ public class P_ShootingController : MonoBehaviour
 
     private GameObject bulletPrefab;
     private GameObject casingPrefab;
-    public TextMeshPro ammoText;
+    public TextMeshProUGUI ammoText;
+    public GameObject reloadIndicator;
+    public Image ammoImage;
+    private Sprite shotImage;
 
     private CinemachineImpulseSource impulseSource;
     private bool canFire = true;
@@ -69,6 +73,8 @@ public class P_ShootingController : MonoBehaviour
                 bulletPrefab = part.bulletPrefab;
                 casingPrefab = part.casingPrefab;
                 shotCount += part.shotCount;
+                ammoImage.sprite = part.ammoIcon;
+                shotImage = part.projectileSprite;
             }
 
         }
@@ -88,6 +94,7 @@ public class P_ShootingController : MonoBehaviour
             {
                 var b = Instantiate(bulletPrefab, direction.position, Quaternion.identity);
                 b.transform.right = direction.up;
+                b.GetComponent<SpriteRenderer>().sprite = shotImage;
                 b.transform.Rotate(0f,0f, Random.Range(-shotSpread, shotSpread));
                 b.GetComponent<W_BulletController>().shotSpeed = shotSpeed;
                 b.GetComponent<W_BulletController>().Move();
@@ -111,10 +118,13 @@ public class P_ShootingController : MonoBehaviour
     }
     public void ReloadWeapon()
     {
+        reloadIndicator.SetActive(false);
         if (currentAmmoCount != ammoCount && canReload)
         {
             StartCoroutine(ReloadLimiter());
+            StartCoroutine(InterpelateRoutine(reloadTime));
         }
+        reloadIndicator.SetActive(true);
     }
 
     IEnumerator ReloadLimiter()
@@ -132,6 +142,20 @@ public class P_ShootingController : MonoBehaviour
         canFire = false;
         yield return new WaitForSeconds(firerate);
         canFire = true;
+    }
+    IEnumerator InterpelateRoutine(float duration)
+    {
+        reloadIndicator.SetActive(true);
+        float lerp = 0;
+        while (duration > 0 && lerp < 1)
+        {
+            lerp = Mathf.MoveTowards(lerp, 1, Time.deltaTime / duration);
+            reloadIndicator.GetComponent<Image>().fillAmount = Mathf.Lerp(0, 1, lerp);
+
+            yield return null;
+        }
+        reloadIndicator.GetComponent<Image>().fillAmount = 1;
+        reloadIndicator.SetActive(false);
     }
 
     private void OnGUI()

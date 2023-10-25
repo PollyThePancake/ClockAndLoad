@@ -14,13 +14,7 @@ public class W_BulletController : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision != null) 
-        {
-            if (!collision.gameObject.CompareTag("StopProjectiles"))
-            {
-                Destroy(this);
-            }
-        }
+        Destroy(this);
     }
 
 }

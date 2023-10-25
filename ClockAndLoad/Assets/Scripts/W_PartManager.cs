@@ -18,12 +18,13 @@ public class W_PartManager : ScriptableObject
         Tactical,
     }
 
-    public Sprite partSprite;
+    
     public Vector2 posOffset;
+
     public PartType partType;
 
-
-
+    public Sprite partSprite, ammoIcon, projectileSprite;
+    public GameObject barrelPrefab, bulletPrefab, casingPrefab;
     // ## Barrel
     //[ShowWhen("partType",PartType.Barrel)]
     public int shotCount, ammoCount;
@@ -39,7 +40,7 @@ public class W_PartManager : ScriptableObject
     public float shotSpread;
 
     //[ShowWhen("partType", PartType.Barrel)]
-    public GameObject barrelPrefab, bulletPrefab, casingPrefab;
+    
 
     // ## Stock &
     // ## Muzzle

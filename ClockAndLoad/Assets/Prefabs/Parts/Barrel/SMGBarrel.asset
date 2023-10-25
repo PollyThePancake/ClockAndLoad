@@ -12,9 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 763b6cbe7ac873041898a928994fc14c, type: 3}
   m_Name: SMGBarrel
   m_EditorClassIdentifier: 
-  partSprite: {fileID: 21300000, guid: e91336d9b3fc39b41b45fc49bb3db1c9, type: 3}
   posOffset: {x: 0, y: 0}
   partType: 1
+  partSprite: {fileID: 21300000, guid: 8a483f6363e8f0747801718430c6c911, type: 3}
+  ammoIcon: {fileID: 21300000, guid: cb89913118bd47e49be69367657058fe, type: 3}
+  projectileSprite: {fileID: 21300000, guid: bae2a033b1468a74b86234517c6707a6, type: 3}
+  barrelPrefab: {fileID: 7583426071405488794, guid: 716041496a324da43b3c82d872e5ba7a, type: 3}
+  bulletPrefab: {fileID: 2910381631124177882, guid: e87558200a7dbea41be4e905e80dad11, type: 3}
+  casingPrefab: {fileID: 7674649315742074314, guid: 7af4f706204eb324ba5f88ae49b0c65b, type: 3}
   shotCount: 1
   ammoCount: 25
   shotSpeed: 2.5
@@ -23,9 +28,6 @@ MonoBehaviour:
   damage: 4
   shotAccuracy: 2
   shotSpread: 5
-  barrelPrefab: {fileID: 7583426071405488794, guid: 716041496a324da43b3c82d872e5ba7a, type: 3}
-  bulletPrefab: {fileID: 2910381631124177882, guid: e87558200a7dbea41be4e905e80dad11, type: 3}
-  casingPrefab: {fileID: 7674649315742074314, guid: 7af4f706204eb324ba5f88ae49b0c65b, type: 3}
   spreadMod: 0
   accuracyMod: 0
   firerateMod: 0
