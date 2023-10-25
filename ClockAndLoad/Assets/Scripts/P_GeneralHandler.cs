@@ -6,6 +6,7 @@ using UnityEngine;
 public class P_GeneralHandler : MonoBehaviour
 {
     public GameObject GameController;
+    [HideInInspector]
     public List<W_PartManager> partList;
     [HideInInspector]
     public List<W_PartManager> barrelParts, stockParts, muzzleParts, triggerParts;
@@ -42,7 +43,7 @@ public class P_GeneralHandler : MonoBehaviour
         //debug
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            shootingController.InitGun(barrelParts,stockParts,triggerParts,muzzleParts,gripPoint,handSprite);
+            shootingController.InitGun(barrelParts[0], stockParts[0], triggerParts[0], muzzleParts[0], gripPoint,handSprite);
         }
 
         //  Fire

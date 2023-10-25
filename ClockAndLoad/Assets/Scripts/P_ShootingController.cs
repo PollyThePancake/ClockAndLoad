@@ -17,12 +17,13 @@ public class P_ShootingController : MonoBehaviour
 
     private CinemachineImpulseSource impulseSource;
     private bool canFire = true;
+    private bool canReload = true;
 
     private void Awake()
     {
         impulseSource= GetComponent<CinemachineImpulseSource>();
     }
-    public void InitGun(List<W_PartManager> barrelParts, List<W_PartManager> stockParts, List<W_PartManager> triggerParts, List<W_PartManager> muzzleParts, GameObject gripPoint, Sprite handSprite)
+    public void InitGun(W_PartManager barrelPart, W_PartManager stockPart, W_PartManager triggerPart, W_PartManager muzzlePart, GameObject gripPoint, Sprite handSprite)
     {
         for (int i = 0; gripPoint.transform.childCount > i; i++)
         {
@@ -30,18 +31,18 @@ public class P_ShootingController : MonoBehaviour
         }
         var gun = Instantiate(new GameObject(), gripPoint.transform, false);
         gun.AddComponent<W_Constructor>();
-        gun.GetComponent<W_Constructor>().barrelStats = barrelParts[0];
-        gun.GetComponent<W_Constructor>().stockStats = stockParts[0];
-        gun.GetComponent<W_Constructor>().triggerStats = triggerParts[0];
-        gun.GetComponent<W_Constructor>().muzzleStats = muzzleParts[0];
+        gun.GetComponent<W_Constructor>().barrelStats = barrelPart;
+        gun.GetComponent<W_Constructor>().stockStats = stockPart;
+        gun.GetComponent<W_Constructor>().triggerStats = triggerPart;
+        gun.GetComponent<W_Constructor>().muzzleStats = muzzlePart;
         gun.GetComponent<W_Constructor>().handSprite = handSprite;
         gun.GetComponent<W_Constructor>().ConstructGun();
         var parts = new List<W_PartManager>
         {
-            barrelParts[0],
-            stockParts[0],
-            triggerParts[0],
-            muzzleParts[0]
+            barrelPart,
+            stockPart,
+            triggerPart,
+            muzzlePart
         };
         GenerateStats(parts);
     }
@@ -110,10 +111,22 @@ public class P_ShootingController : MonoBehaviour
     }
     public void ReloadWeapon()
     {
-        currentAmmoCount = ammoCount;
-        UpdateCounter();
+        if (currentAmmoCount != ammoCount && canReload)
+        {
+            StartCoroutine(ReloadLimiter());
+        }
     }
 
+    IEnumerator ReloadLimiter()
+    {
+        canReload = false;
+        canFire = false;
+        yield return new WaitForSeconds(reloadTime);
+        currentAmmoCount = ammoCount;
+        UpdateCounter() ;
+        canFire = true;
+        canReload = true;
+    }
     IEnumerator FirerateLimiter()
     {
         canFire = false;

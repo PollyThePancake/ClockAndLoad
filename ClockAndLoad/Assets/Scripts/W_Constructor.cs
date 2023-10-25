@@ -36,4 +36,5 @@ public class W_Constructor : MonoBehaviour
             a.transform.localScale = new Vector3(3f, 3f, 3f);
         }
     }
+
 }
